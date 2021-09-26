@@ -105,9 +105,9 @@ Homeworks | 30 | 3
 ## Communication
 
 * We use <img src="images/slack.png" width="200px"/> to communicate and many more
-* To access slack: register at [https://shiny.samorso.ch/fillingform/](https://shiny.samorso.ch/fillingform/) and wait your invitation
 * We use the **NEIN rule**! (No Email, only If Necessary)
 * More info at [https://ptds.samorso.ch/](https://ptds.samorso.ch/)
+* To access slack: register at [https://shiny.samorso.ch/fillingform/](https://shiny.samorso.ch/fillingform/) and wait your invitation <img src="images/qrcode_data-analytics-lab.shinyapps.io.png" width="150px"/>
 
 
 ---
