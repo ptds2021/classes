@@ -7,6 +7,8 @@
     <meta name="date" content="2021-09-27" />
     <script src="lecture02_markdown_files/header-attrs-2.7/header-attrs.js"></script>
     <link href="lecture02_markdown_files/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <script src="lecture02_markdown_files/kePrint-0.0.1/kePrint.js"></script>
+    <link href="lecture02_markdown_files/lightable-0.0.1/lightable.css" rel="stylesheet" />
     <script type="text/x-mathjax-config">
       MathJax.Hub.Config({
         TeX: { equationNumbers: { autoNumber: "AMS" } },
@@ -49,6 +51,11 @@ class: center, middle, inverse, title-slide
 .right[-- &lt;cite&gt;R Markdown: The Definitive Guide&lt;/cite&gt;]
 
 &lt;img src="images/workflow.png" width="631" height="300" style="display: block; margin: auto;" /&gt;
+
+---
+# Is there a reproducibility crisis?
+&lt;img src="images/reproducibility.png" width="453" height="385" style="display: block; margin: auto;" /&gt;
+
 
 ---
 # Create a RMarkdown document
@@ -131,6 +138,115 @@ class: sydney-blue, center, middle
 
 # Play 5 minutes with `https://data-analytics-lab.shinyapps.io/rmarkdown/`
 &lt;img src="images/qrcode_data-analytics-lab.shinyapps.io.png" width="300" height="300" style="display: block; margin: auto;" /&gt;
+
+---
+# Printing an output as a table with `knitr::kable()`
+
+```r
+data("iris")
+knitr::kable(iris[1:5,])
+```
+
+
+
+| Sepal.Length| Sepal.Width| Petal.Length| Petal.Width|Species |
+|------------:|-----------:|------------:|-----------:|:-------|
+|          5.1|         3.5|          1.4|         0.2|setosa  |
+|          4.9|         3.0|          1.4|         0.2|setosa  |
+|          4.7|         3.2|          1.3|         0.2|setosa  |
+|          4.6|         3.1|          1.5|         0.2|setosa  |
+|          5.0|         3.6|          1.4|         0.2|setosa  |
+
+There are many more options that can be set to have particularly good looking table with the `knitr` and `kableExtra` packages ([click here for a detailled documentation](https://bookdown.org/yihui/rmarkdown-cookbook/kable.html)).
+
+---
+# Extended table options with `knitr::kable()` and `kableExtra`
+
+```r
+library(kableExtra)
+mtcars[1:3, 1:8] %&gt;%
+  kbl() %&gt;%
+  kable_paper(full_width = F) %&gt;%
+  column_spec(2, color = spec_color(mtcars$mpg[1:3]),
+              link = "https://haozhu233.github.io/kableExtra/") %&gt;%
+  column_spec(6, color = "white",
+              background = spec_color(mtcars$drat[1:3], end = 0.7),
+              popover = paste("am:", mtcars$am[1:3]))
+```
+
+&lt;table class=" lightable-paper" style='font-family: "Arial Narrow", arial, helvetica, sans-serif; width: auto !important; margin-left: auto; margin-right: auto;'&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt;   &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; mpg &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; cyl &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; disp &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; hp &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; drat &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; wt &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; qsec &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; vs &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Mazda RX4 &lt;/td&gt;
+   &lt;td style="text-align:right;color: rgba(68, 1, 84, 1) !important;"&gt;
+&lt;a href="https://haozhu233.github.io/kableExtra/" style="color: rgba(68, 1, 84, 1) !important;"&gt; 21.0 &lt;/a&gt;
+&lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 6 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 160 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 110 &lt;/td&gt;
+   &lt;td style="text-align:right;color: white !important;background-color: rgba(67, 191, 113, 1) !important;" data-toggle="popover" data-container="body" data-trigger="hover" data-placement="right" data-content="am: 1"&gt; 3.90 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2.620 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 16.46 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Mazda RX4 Wag &lt;/td&gt;
+   &lt;td style="text-align:right;color: rgba(68, 1, 84, 1) !important;"&gt;
+&lt;a href="https://haozhu233.github.io/kableExtra/" style="color: rgba(68, 1, 84, 1) !important;"&gt; 21.0 &lt;/a&gt;
+&lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 6 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 160 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 110 &lt;/td&gt;
+   &lt;td style="text-align:right;color: white !important;background-color: rgba(67, 191, 113, 1) !important;" data-toggle="popover" data-container="body" data-trigger="hover" data-placement="right" data-content="am: 1"&gt; 3.90 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2.875 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 17.02 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Datsun 710 &lt;/td&gt;
+   &lt;td style="text-align:right;color: rgba(253, 231, 37, 1) !important;"&gt;
+&lt;a href="https://haozhu233.github.io/kableExtra/" style="color: rgba(253, 231, 37, 1) !important;"&gt; 22.8 &lt;/a&gt;
+&lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 4 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 108 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 93 &lt;/td&gt;
+   &lt;td style="text-align:right;color: white !important;background-color: rgba(68, 1, 84, 1) !important;" data-toggle="popover" data-container="body" data-trigger="hover" data-placement="right" data-content="am: 1"&gt; 3.85 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2.320 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 18.61 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+---
+# Mathpix to easily insert math equation in `\(\LaTeX\)`
+&lt;blockquote&gt;
+Mathpix Snip digitizes handwritten or printed text, and copies outputs to the clipboard that can be pasted into LaTeX editors like Overleaf, Markdown editors like Typora, Microsoft Word, and more. 
+.right[-- &lt;cite&gt;Mathpix Snip&lt;/cite&gt;]
+&lt;/blockquote&gt;
+&lt;div align="center"&gt;
+&lt;iframe width="560" height="315" src="https://www.youtube.com/embed/Pc_6aKPYBwQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen&gt;&lt;/iframe&gt;
+&lt;/div&gt;
+Find more informations [here](https://mathpix.com/).
+
+---
+# `xaringan::infinite_moon_reader()` for live preview of your document
+Instant preview without fully rebuilding HTML, and the linked navigation
+
+&lt;img src="images/gif_inf_m_r.gif" width="606" height="360" style="display: block; margin: auto;" /&gt;
 
 ---
 # To go further
