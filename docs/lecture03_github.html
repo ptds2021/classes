@@ -37,16 +37,14 @@ class: center, middle, inverse, title-slide
 &lt;img src="images/github.png" width="950" height="450" style="display: block; margin: auto;" /&gt;
 
 ---
-# GitHub
-## motivation
+# Motivation
 
 * When working on a project, there are usually different people working on the same file/folder
 * You want to avoid sending each modification by email
 * You could use dropbox/google drive and the likes but it is good practice to keep track of modifications and have a platform to plan and discuss changes
 
 ---
-# GitHub
-## motivation
+# Motivation
 
 GitHub allows you:
 - record the entire history of a file;
@@ -55,8 +53,7 @@ GitHub allows you:
 - make changes without modifying the main file and add them once you feel comfortable with them.
 
 ---
-# GitHub
-## motivation
+# Motivation
 
 GitHub will be used for:
 - work in group on projects and homeworks;
@@ -65,16 +62,27 @@ GitHub will be used for:
 - ...
 
 ---
-
+# Ready ?
+&lt;center&gt;
+&lt;iframe src="https://giphy.com/embed/h4TdHo3RExSbHd9bOe" width="480" height="425" frameBorder="0" class="giphy-embed" allowFullScreen&gt;&lt;/iframe&gt;&lt;p&gt;&lt;a href="https://giphy.com/gifs/cbc-schitts-creek-h4TdHo3RExSbHd9bOe"&gt;via GIPHY&lt;/a&gt;&lt;/p&gt;
+&lt;/center&gt;
 
 ---
 # In fact, what is Git?
+&lt;img src="images/git.png" style="width:150px; position:absolute; top:9%; left:40%" /&gt; 
 
 Git is a **distributed version control system**.
 
 * **distributed**: whenever you instruct Git to share files, Git does not only share the latest file version, but instead, it distributes **every version** it has recorded for that project.
 
 * **version control system**: many people are used to have *their own version control system* e.g. by having different versions of the same file (`file_v1.R`, `file_v2.R`, ...). This approach is error-prone and ineffective when working in team project. Thus, a version control system keeps track of changes to modification in your project.
+
+---
+# Types of VCS
+There are three types of version control system (VCS):
+* local
+* centralized
+* distributed
 
 ---
 # Types of VCS
@@ -94,14 +102,88 @@ Git is a **distributed version control system**.
 # Types of VCS
 ## Centralized
 
+.pull-left[
+&lt;img src="images/centralized_vcs.png" width="490" height="317" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right[
+* A single server contains all the versioned files
+* Risk of failure
+* Risk of database corruption
+]
 
 ---
-# GitHub
-## ready?
+# Types of VCS
+## Distributed
+.pull-left[
+&lt;img src="images/dst_vcs.jpg" width="460" height="416" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right[
+* Store the entire history of files locally
+* Sync local changes back to server
+* Allow multiple users and minimize risks of centralized VCS
+]
+
+---
+# Benefits of VCS
+* Allow multiple users to collaborate and communicate while working on a project.
+* Keep tracks of the change history of the files (risk mitigation) with possibility to roll back to previous version.
+* Different workflows such as branching and merging (not discussed)
+
+&lt;img src="images/branching.jpeg" width="410" height="250" style="display: block; margin: auto;" /&gt;
+
+---
+# So Git and GitHub are the same things?
+&lt;center&gt;
+&lt;iframe src="https://giphy.com/embed/3o6YglDndxKdCNw7q8" width="480" height="478" frameBorder="0" class="giphy-embed" allowFullScreen&gt;&lt;/iframe&gt;&lt;p&gt;&lt;a href="https://giphy.com/gifs/nba-basketball-chicago-bulls-3o6YglDndxKdCNw7q8"&gt;via GIPHY&lt;/a&gt;&lt;/p&gt;
+&lt;/center&gt;
+
+---
+# Git vs GitHub
+Git is a distributed VCS, so what is GitHub exactly?
+
+* Git is a software...
+* ...and GitHub is web-based plateform for software development and version control that uses Git.
+* GitHub hosts and shares Git repository.
+* GitHub is not the only service provider
+
+---
+#BitBucket
+&lt;img src="images/bitbucket.png" width="2525" style="display: block; margin: auto;" /&gt;
+
+---
+#GitLab
+&lt;img src="images/gitlab.png" width="2476" style="display: block; margin: auto;" /&gt;
+
+---
+#SourceForge
+&lt;img src="images/sourceforge.png" width="2511" style="display: block; margin: auto;" /&gt;
+
+---
+# Okay to continue ? 
 
 .center[
 &lt;iframe src="https://giphy.com/embed/sG4PBWRjI4GSVCDXEq" width="480" height="480" frameBorder="0" class="giphy-embed" allowFullScreen&gt;&lt;/iframe&gt;&lt;p&gt;&lt;a href="https://giphy.com/gifs/nickelodeon-drama-club-sG4PBWRjI4GSVCDXEq"&gt;via GIPHY&lt;/a&gt;&lt;/p&gt;
 ]
+
+---
+# Files states in Git
+A file can have different states: **untracked**, **modified**, **staged** or **committed**
+
+* **untracked**: a new file that is not tracked by Git (yet);
+* **modified**: a tracked file which is modified but not recorded (not committed yet);
+* **staged**: a tracked file that which is modified and that has been selected to be saved (committed) into the repository during the next commit snapshot;
+* **committed**: a file that is successfully recorded into the (local) repository.
+
+---
+# Files states in Git
+&lt;img src="images/git-basic-workflow-codesweetly.png" width="2560" style="display: block; margin: auto;" /&gt;
+
+---
+# you can also `.gitignore`
+* Some files or folders of your project can be excluded from version control by specifying `.gitignore`
+* These files or folders will not be shared to other users
 
 ---
 # GitHub
@@ -120,14 +202,6 @@ The basic workflow is as follows...
 class: sydney-blue, center, middle
 
 # Demo on RStudio
-
----
-# GitHub
-## Files states in Git
-A file can have three primary states: **modified**, **staged** or **committed**
-
-* **modified**: a file is modified but not recorded;
-* **staged**;
 
 ---
 # GitHub
