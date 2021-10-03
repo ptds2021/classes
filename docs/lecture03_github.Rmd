@@ -190,6 +190,11 @@ knitr::include_graphics("images/git-basic-workflow-codesweetly.png")
 * Some files or folders of your project can be excluded from version control by specifying `.gitignore`
 * These files or folders will not be shared to other users
 
+```{r, fig.align="center", echo=FALSE}
+knitr::include_graphics(path="images/gitignore.png")
+```
+
+
 ---
 # GitHub
 ## Basic workflow
