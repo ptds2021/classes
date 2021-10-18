@@ -363,7 +363,7 @@ library(ggplot2)
 search()
 ```
 
-Be careful, if two packages have the same for a function, which one is going to be called? You can use the operator `pkg::name` to make sure you make the right call.
+Be careful, if two packages have the same name for a function, which one is going to be called? You can use the operator `pkg::name` to make sure you make the right call.
 
 ---
 <blockquote>
@@ -423,7 +423,7 @@ my_div(AB,CD)
 
 ---
 or a final option is to use **piping** with for example `%>%` `magrittr` operator
-(which works for only one argument)
+(which works only for one argument)
 ```{r}
 library(magrittr)
 my_div(A,B) %>% my_div(CD)

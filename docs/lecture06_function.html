@@ -540,7 +540,7 @@ f()
 ```
 
 ```
-## &lt;environment: 0x55729da800e0&gt;
+## &lt;environment: 0x558517b6dc90&gt;
 ```
 
 ```r
@@ -548,7 +548,7 @@ f()
 ```
 
 ```
-## &lt;environment: 0x55729dacf830&gt;
+## &lt;environment: 0x558517bbd3e0&gt;
 ```
 
 * **package**: when you attach a package with `library(pkg)`, the package becomes a parent of the global environment.
@@ -578,7 +578,7 @@ search()
 ## [10] "package:base"
 ```
 
-Be careful, if two packages have the same for a function, which one is going to be called? You can use the operator `pkg::name` to make sure you make the right call.
+Be careful, if two packages have the same name for a function, which one is going to be called? You can use the operator `pkg::name` to make sure you make the right call.
 
 ---
 &lt;blockquote&gt;
@@ -672,10 +672,10 @@ my_div(my_div(A,B),my_div(C,D))
 ```
 
 ```
-##            [,1]       [,2]       [,3]
-## [1,] -0.1529469  0.3938159  -6.363267
-## [2,] -0.4584352 -0.6451267  44.443137
-## [3,] -0.1445750  0.5221825 -56.160618
+##            [,1]        [,2]        [,3]
+## [1,]  2.1003117  0.05380059   0.1275923
+## [2,] -0.6677864 -0.85582762   0.3334653
+## [3,] 49.7454792 68.52969376 -11.8954478
 ```
 
 This is called **nesting**.
@@ -708,15 +708,15 @@ my_div(AB,CD)
 ```
 
 ```
-##            [,1]       [,2]       [,3]
-## [1,] -0.1529469  0.3938159  -6.363267
-## [2,] -0.4584352 -0.6451267  44.443137
-## [3,] -0.1445750  0.5221825 -56.160618
+##            [,1]        [,2]        [,3]
+## [1,]  2.1003117  0.05380059   0.1275923
+## [2,] -0.6677864 -0.85582762   0.3334653
+## [3,] 49.7454792 68.52969376 -11.8954478
 ```
 
 ---
 or a final option is to use **piping** with for example `%&gt;%` `magrittr` operator
-(which works for only one argument)
+(which works only for one argument)
 
 ```r
 library(magrittr)
@@ -729,10 +729,10 @@ my_div(A,B) %&gt;% my_div(CD)
 ```
 
 ```
-##            [,1]       [,2]       [,3]
-## [1,] -0.1529469  0.3938159  -6.363267
-## [2,] -0.4584352 -0.6451267  44.443137
-## [3,] -0.1445750  0.5221825 -56.160618
+##            [,1]        [,2]        [,3]
+## [1,]  2.1003117  0.05380059   0.1275923
+## [2,] -0.6677864 -0.85582762   0.3334653
+## [3,] 49.7454792 68.52969376 -11.8954478
 ```
 
 ---
