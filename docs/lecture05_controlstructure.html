@@ -444,14 +444,14 @@ microbenchmark::microbenchmark(
 
 ```
 ## Unit: microseconds
-##                                                       expr      min       lq
-##  for (i in 1:ncol(A)) {     A_colmean[i] &lt;- mean(A[, i]) } 2698.565 3479.784
-##                           apply(A, MARGIN = 2, FUN = mean)   32.022   51.386
-##                                                colMeans(A)    5.267    8.365
-##        mean    median       uq      max neval cld
-##  4809.37865 4195.0370 5702.833 9949.513   100   b
-##    76.84890   68.5905   90.804  212.449   100  a 
-##    18.99811   15.8785   24.981   89.220   100  a
+##                                                       expr      min        lq
+##  for (i in 1:ncol(A)) {     A_colmean[i] &lt;- mean(A[, i]) } 1900.742 1955.2695
+##                           apply(A, MARGIN = 2, FUN = mean)   22.415   27.5850
+##                                                colMeans(A)    3.182    4.8815
+##        mean    median        uq      max neval cld
+##  2303.00307 2070.2480 2523.8040 5180.620   100   b
+##    36.95135   36.2295   41.7335   80.579   100  a 
+##     9.31861    8.4610   11.9490   49.984   100  a
 ```
 
 * Lesson: always try to use `R` builtin functions as they are usually efficient

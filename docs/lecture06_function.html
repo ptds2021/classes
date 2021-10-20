@@ -540,7 +540,7 @@ f()
 ```
 
 ```
-## &lt;environment: 0x558517b6dc90&gt;
+## &lt;environment: 0x55a6007a61f8&gt;
 ```
 
 ```r
@@ -548,7 +548,7 @@ f()
 ```
 
 ```
-## &lt;environment: 0x558517bbd3e0&gt;
+## &lt;environment: 0x55a6007f3a28&gt;
 ```
 
 * **package**: when you attach a package with `library(pkg)`, the package becomes a parent of the global environment.
@@ -672,10 +672,10 @@ my_div(my_div(A,B),my_div(C,D))
 ```
 
 ```
-##            [,1]        [,2]        [,3]
-## [1,]  2.1003117  0.05380059   0.1275923
-## [2,] -0.6677864 -0.85582762   0.3334653
-## [3,] 49.7454792 68.52969376 -11.8954478
+##             [,1]      [,2]      [,3]
+## [1,] -0.03637618 -8.740918 -2.466909
+## [2,]  2.89791013  0.582838 -1.036070
+## [3,] -0.08927279 -1.111432 -5.325757
 ```
 
 This is called **nesting**.
@@ -708,10 +708,10 @@ my_div(AB,CD)
 ```
 
 ```
-##            [,1]        [,2]        [,3]
-## [1,]  2.1003117  0.05380059   0.1275923
-## [2,] -0.6677864 -0.85582762   0.3334653
-## [3,] 49.7454792 68.52969376 -11.8954478
+##             [,1]      [,2]      [,3]
+## [1,] -0.03637618 -8.740918 -2.466909
+## [2,]  2.89791013  0.582838 -1.036070
+## [3,] -0.08927279 -1.111432 -5.325757
 ```
 
 ---
@@ -729,11 +729,399 @@ my_div(A,B) %&gt;% my_div(CD)
 ```
 
 ```
-##            [,1]        [,2]        [,3]
-## [1,]  2.1003117  0.05380059   0.1275923
-## [2,] -0.6677864 -0.85582762   0.3334653
-## [3,] 49.7454792 68.52969376 -11.8954478
+##             [,1]      [,2]      [,3]
+## [1,] -0.03637618 -8.740918 -2.466909
+## [2,]  2.89791013  0.582838 -1.036070
+## [3,] -0.08927279 -1.111432 -5.325757
 ```
+
+---
+# Ready to continue?
+
+&amp;nbsp;
+
+&lt;center&gt;
+&lt;iframe src="https://giphy.com/embed/xT8qBvH1pAhtfSx52U" width="480" height="270" frameBorder="0" class="giphy-embed" allowFullScreen&gt;&lt;/iframe&gt;&lt;p&gt;&lt;a href="https://giphy.com/gifs/baby-sleepy-face-first-xT8qBvH1pAhtfSx52U"&gt;via GIPHY&lt;/a&gt;&lt;/p&gt;
+&lt;/center&gt;
+
+---
+# S3 OOP system
+* Object-oriented programming (OOP) is one of the most popular programming paradigm. 
+* The type of an object is a **class** and a function implemented for a specific class is a **method**.
+* It is mostly used for **polymorphism**: the function interface is separated from its implementation. In other words, the function behaves differently according to the class.
+* This is related to the idea of **encapsulation**: the object interface is separated from its internal structure. In other words, the user doesn't need to worry about details of an object. Encapsulation avoids spaghetti code (see [Toyota 2013 case](http://archive.wikiwix.com/cache/index2.php?url=https%3A%2F%2Fwww.usna.edu%2FAcResearch%2F_files%2Fdocuments%2FNASEC%2F2016%2FCYBER%2520-%2520Toyota%2520Unintended%2520Acceleration.pdf)).
+* `R` has several OOP systems: S3, S4, R6, ...
+* S3 OOP system is the first R OOP system, it is rather informal (easy to modify) and widespread.
+
+---
+# Example of polymorphism
+
+```r
+summary(cars$speed)
+```
+
+```
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##     4.0    12.0    15.0    15.4    19.0    25.0
+```
+
+```r
+summary(lm(cars$speed~cars$dist))
+```
+
+```
+## 
+## Call:
+## lm(formula = cars$speed ~ cars$dist)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -7.5293 -2.1550  0.3615  2.4377  6.4179 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  8.28391    0.87438   9.474 1.44e-12 ***
+## cars$dist    0.16557    0.01749   9.464 1.49e-12 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 3.156 on 48 degrees of freedom
+## Multiple R-squared:  0.6511,	Adjusted R-squared:  0.6438 
+## F-statistic: 89.57 on 1 and 48 DF,  p-value: 1.49e-12
+```
+
+---
+What is happening?
+
+```r
+sloop::s3_dispatch(summary(cars$speed))
+```
+
+```
+##    summary.double
+##    summary.numeric
+## =&gt; summary.default
+```
+
+```r
+sloop::s3_dispatch(summary(lm(cars$speed~cars$dist)))
+```
+
+```
+## =&gt; summary.lm
+##  * summary.default
+```
+
+* `*` indicates the method is defined;
+* `=&gt;` indicates the method is used.
+
+
+```r
+class(cars$speed)
+```
+
+```
+## [1] "numeric"
+```
+
+```r
+class(lm(cars$speed~cars$dist))
+```
+
+```
+## [1] "lm"
+```
+
+---
+What is happening?
+
+```r
+summary
+```
+
+```
+## function (object, ...) 
+## UseMethod("summary")
+## &lt;bytecode: 0x55a60116ecc8&gt;
+## &lt;environment: namespace:base&gt;
+```
+
+```r
+head(summary.default)
+```
+
+```
+##                                                     
+## 1 function (object, ..., digits, quantile.type = 7) 
+## 2 {                                                 
+## 3     if (is.factor(object))                        
+## 4         return(summary.factor(object, ...))       
+## 5     else if (is.matrix(object)) {                 
+## 6         if (missing(digits))
+```
+
+```r
+head(summary.lm)
+```
+
+```
+##                                                                
+## 1 function (object, correlation = FALSE, symbolic.cor = FALSE, 
+## 2     ...)                                                     
+## 3 {                                                            
+## 4     z &lt;- object                                              
+## 5     p &lt;- z$rank                                              
+## 6     rdf &lt;- z$df.residual
+```
+
+---
+# `...`
+* Using `...` is a special argument which allows to pass any number of additional arguments.
+* You can catch it into a list:
+
+```r
+f &lt;- function(...){list(...)}
+f(a=1, b=2)
+```
+
+```
+## $a
+## [1] 1
+## 
+## $b
+## [1] 2
+```
+* It is useful for example when defining a **generic** method.
+* The role of a generic is to **dispatch**: find the specific method for a **class**.
+
+---
+* A generic is easy to create
+
+```r
+my_new_generic &lt;- function(x, ...) {
+  UseMethod("my_new_generic")
+}
+```
+* Then, you can create methods
+
+```r
+# default method
+my_new_generic.default &lt;- function(x, ...){
+  print("this is default method")
+}
+# method for object of class `lm`
+my_new_generic.lm &lt;- function(x, ...){
+  print("this is method for class `lm`")
+}
+```
+
+
+```r
+my_new_generic(cars$speed)
+```
+
+```
+## [1] "this is default method"
+```
+
+```r
+my_new_generic(lm(cars$speed~cars$dist))
+```
+
+```
+## [1] "this is method for class `lm`"
+```
+
+---
+* check the dispatch
+
+```r
+sloop::s3_dispatch(my_new_generic(cars$speed))
+```
+
+```
+##    my_new_generic.double
+##    my_new_generic.numeric
+## =&gt; my_new_generic.default
+```
+
+```r
+sloop::s3_dispatch(my_new_generic(lm(cars$speed~cars$dist)))
+```
+
+```
+## =&gt; my_new_generic.lm
+##  * my_new_generic.default
+```
+* Why are there several output when running `sloop::s3_dispatch(my_new_generic(cars$speed))`?
+
+---
+* check the dispatch
+
+```r
+sloop::s3_dispatch(my_new_generic(cars$speed))
+```
+
+```
+##    my_new_generic.double
+##    my_new_generic.numeric
+## =&gt; my_new_generic.default
+```
+
+```r
+sloop::s3_dispatch(my_new_generic(lm(cars$speed~cars$dist)))
+```
+
+```
+## =&gt; my_new_generic.lm
+##  * my_new_generic.default
+```
+* Why are there several output when running `sloop::s3_dispatch(my_new_generic(cars$speed))`?
+
+
+```r
+sloop::s3_class(cars$speed)
+```
+
+```
+## [1] "double"  "numeric"
+```
+* `cars$speed` has class "numeric" and implicit class "double" (check `typeof(cars$speed)`).
+
+
+---
+# Inheritance
+* An object can have several classes like a child has parents and ancestors. For example:
+
+```r
+class(glm(cars$speed~cars$dist))
+```
+
+```
+## [1] "glm" "lm"
+```
+* If a method is not found for the 1st class, then `R` looks for the 2nd class and so on.
+
+```r
+sloop::s3_dispatch(summary(glm(cars$speed~cars$dist)))
+```
+
+```
+## =&gt; summary.glm
+##  * summary.lm
+##  * summary.default
+```
+
+```r
+sloop::s3_dispatch(plot(glm(cars$speed~cars$dist)))
+```
+
+```
+##    plot.glm
+## =&gt; plot.lm
+##  * plot.default
+```
+
+---
+# Create your own S3 class
+* S3 is rather informal and straightforward (be careful!)
+
+```r
+set.seed(123) # for reproducibility
+image &lt;- matrix(rgamma(100, shape = 2), 10, 10)
+class(image) &lt;- "pixel"
+```
+
+* `class` is a special attribute.
+
+```r
+attributes(image)
+```
+
+```
+## $dim
+## [1] 10 10
+## 
+## $class
+## [1] "pixel"
+```
+
+---
+* Alternatively, it is neater to create a S3 object using `structure`
+
+```r
+set.seed(123) # for reproducibility
+image &lt;- structure(
+  matrix(rgamma(100, shape = 2), 10, 10),
+  class = "pixel"
+)
+```
+* There is no method yet for this class
+
+```r
+plot(image)
+```
+
+&lt;img src="lecture06_function_files/figure-html/unnamed-chunk-47-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+
+```r
+sloop::s3_dispatch(plot(image))
+```
+
+```
+##    plot.pixel
+## =&gt; plot.default
+```
+
+```r
+plot
+```
+
+```
+## function (x, y, ...) 
+## UseMethod("plot")
+## &lt;bytecode: 0x55a6018b9e38&gt;
+## &lt;environment: namespace:base&gt;
+```
+
+---
+* Generally, it is a bad practice to create methods for a generic you don't own.
+* But it is common for generics with `...` arguments such as `mean`, `sum`, `summary`, `plot`, `coefficients`, ...
+
+
+```r
+plot.pixel &lt;- function (x, ...) {
+  heatmap(x, ...)
+}
+sloop::s3_dispatch(plot(image))
+```
+
+```
+## =&gt; plot.pixel
+##  * plot.default
+```
+
+---
+* New plot for class `pixel`
+
+```r
+plot(image)
+```
+
+&lt;img src="lecture06_function_files/figure-html/unnamed-chunk-50-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+* Thanks to `...`, you can pass other arguments (be careful) (see for meaningful arguments `?heatmap`)
+
+
+```r
+plot(image, col = cm.colors(256), xlab = "x axis", ylab = "y axis")
+```
+
+&lt;img src="lecture06_function_files/figure-html/unnamed-chunk-51-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 class: sydney-blue, center, middle

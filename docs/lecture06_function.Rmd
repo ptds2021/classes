@@ -430,6 +430,182 @@ my_div(A,B) %>% my_div(CD)
 ```
 
 ---
+# Ready to continue?
+
+&nbsp;
+
+<center>
+<iframe src="https://giphy.com/embed/xT8qBvH1pAhtfSx52U" width="480" height="270" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/baby-sleepy-face-first-xT8qBvH1pAhtfSx52U">via GIPHY</a></p>
+</center>
+
+---
+# S3 OOP system
+* Object-oriented programming (OOP) is one of the most popular programming paradigm. 
+* The type of an object is a **class** and a function implemented for a specific class is a **method**.
+* It is mostly used for **polymorphism**: the function interface is separated from its implementation. In other words, the function behaves differently according to the class.
+* This is related to the idea of **encapsulation**: the object interface is separated from its internal structure. In other words, the user doesn't need to worry about details of an object. Encapsulation avoids spaghetti code (see [Toyota 2013 case](http://archive.wikiwix.com/cache/index2.php?url=https%3A%2F%2Fwww.usna.edu%2FAcResearch%2F_files%2Fdocuments%2FNASEC%2F2016%2FCYBER%2520-%2520Toyota%2520Unintended%2520Acceleration.pdf)).
+* `R` has several OOP systems: S3, S4, R6, ...
+* S3 OOP system is the first R OOP system, it is rather informal (easy to modify) and widespread.
+
+---
+# Example of polymorphism
+```{r}
+summary(cars$speed)
+summary(lm(cars$speed~cars$dist))
+```
+
+---
+What is happening?
+```{r}
+sloop::s3_dispatch(summary(cars$speed))
+sloop::s3_dispatch(summary(lm(cars$speed~cars$dist)))
+```
+
+* `*` indicates the method is defined;
+* `=>` indicates the method is used.
+
+```{r}
+class(cars$speed)
+class(lm(cars$speed~cars$dist))
+```
+
+---
+What is happening?
+```{r}
+summary
+head(summary.default)
+head(summary.lm)
+```
+
+---
+# `...`
+* Using `...` is a special argument which allows to pass any number of additional arguments.
+* You can catch it into a list:
+```{r}
+f <- function(...){list(...)}
+f(a=1, b=2)
+```
+* It is useful for example when defining a **generic** method.
+* The role of a generic is to **dispatch**: find the specific method for a **class**.
+
+---
+* A generic is easy to create
+```{r}
+my_new_generic <- function(x, ...) {
+  UseMethod("my_new_generic")
+}
+```
+* Then, you can create methods
+```{r}
+# default method
+my_new_generic.default <- function(x, ...){
+  print("this is default method")
+}
+# method for object of class `lm`
+my_new_generic.lm <- function(x, ...){
+  print("this is method for class `lm`")
+}
+```
+
+```{r}
+my_new_generic(cars$speed)
+my_new_generic(lm(cars$speed~cars$dist))
+```
+
+---
+* check the dispatch
+```{r}
+sloop::s3_dispatch(my_new_generic(cars$speed))
+sloop::s3_dispatch(my_new_generic(lm(cars$speed~cars$dist)))
+```
+* Why are there several output when running `sloop::s3_dispatch(my_new_generic(cars$speed))`?
+
+---
+* check the dispatch
+```{r}
+sloop::s3_dispatch(my_new_generic(cars$speed))
+sloop::s3_dispatch(my_new_generic(lm(cars$speed~cars$dist)))
+```
+* Why are there several output when running `sloop::s3_dispatch(my_new_generic(cars$speed))`?
+
+```{r}
+sloop::s3_class(cars$speed)
+```
+* `cars$speed` has class "numeric" and implicit class "double" (check `typeof(cars$speed)`).
+
+
+---
+# Inheritance
+* An object can have several classes like a child has parents and ancestors. For example:
+```{r}
+class(glm(cars$speed~cars$dist))
+```
+* If a method is not found for the 1st class, then `R` looks for the 2nd class and so on.
+```{r}
+sloop::s3_dispatch(summary(glm(cars$speed~cars$dist)))
+sloop::s3_dispatch(plot(glm(cars$speed~cars$dist)))
+```
+
+---
+# Create your own S3 class
+* S3 is rather informal and straightforward (be careful!)
+```{r}
+set.seed(123) # for reproducibility
+image <- matrix(rgamma(100, shape = 2), 10, 10)
+class(image) <- "pixel"
+```
+
+* `class` is a special attribute.
+```{r}
+attributes(image)
+```
+
+---
+* Alternatively, it is neater to create a S3 object using `structure`
+```{r}
+set.seed(123) # for reproducibility
+image <- structure(
+  matrix(rgamma(100, shape = 2), 10, 10),
+  class = "pixel"
+)
+```
+* There is no method yet for this class
+```{r,fig.align='center',fig.height=4,fig.width=4}
+plot(image)
+```
+
+---
+
+```{r}
+sloop::s3_dispatch(plot(image))
+plot
+```
+
+---
+* Generally, it is a bad practice to create methods for a generic you don't own.
+* But it is common for generics with `...` arguments such as `mean`, `sum`, `summary`, `plot`, `coefficients`, ...
+
+```{r}
+plot.pixel <- function (x, ...) {
+  heatmap(x, ...)
+}
+sloop::s3_dispatch(plot(image))
+```
+
+---
+* New plot for class `pixel`
+```{r,fig.align='center',fig.height=6,fig.width=6}
+plot(image)
+```
+
+---
+* Thanks to `...`, you can pass other arguments (be careful) (see for meaningful arguments `?heatmap`)
+
+```{r,fig.align='center',fig.height=6,fig.width=6}
+plot(image, col = cm.colors(256), xlab = "x axis", ylab = "y axis")
+```
+
+---
 class: sydney-blue, center, middle
 
 # Question ?
