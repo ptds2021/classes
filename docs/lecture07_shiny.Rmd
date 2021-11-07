@@ -483,7 +483,7 @@ You can decide of the view you prefer <img src="images/shiny_view.png" style="he
 ---
 # To go further
 * More details and examples in the book [An Introduction to Statistical Programming Methods with R](https://smac-group.github.io/ds/section-shiny-web-applications.html)
-* More material and details in [Advanced R](https://mastering-shiny.org/index.html), especially the first chapters.
+* More material and details in [Mastering Shiny](https://mastering-shiny.org/index.html), especially the first chapters.
 * See also [Shiny RStudio articles](https://shiny.rstudio.com/articles/)
 
 ---
